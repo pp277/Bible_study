@@ -22,7 +22,17 @@ if (typeof window !== 'undefined') {
     hasStorageBucket: !!firebaseConfig.storageBucket,
     hasMessagingSenderId: !!firebaseConfig.messagingSenderId,
     hasAppId: !!firebaseConfig.appId,
+    actualValues: {
+      authDomain: firebaseConfig.authDomain,
+      projectId: firebaseConfig.projectId,
+    }
   });
+  
+  // Check if any config values are missing
+  const missingConfigs = Object.entries(firebaseConfig).filter(([key, value]) => !value);
+  if (missingConfigs.length > 0) {
+    console.error('Missing Firebase config values:', missingConfigs.map(([key]) => key));
+  }
 }
 
 // Initialize Firebase
