@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(213, 94%, 68%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(262, 83%, 58%);
+  --secondary-foreground: hsl(262, 100%, 99%);
+  --accent: hsl(43, 96%, 56%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --success: hsl(142, 76%, 36%);
+  --success-foreground: hsl(355, 100%, 99%);
+  --spiritual: hsl(262, 83%, 58%);
+  --warm: hsl(60, 9%, 98%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(213, 94%, 68%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(262, 83%, 58%);
+  --secondary-foreground: hsl(262, 100%, 99%);
+  --accent: hsl(43, 96%, 56%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --success: hsl(142, 76%, 36%);
+  --success-foreground: hsl(355, 100%, 99%);
+  --spiritual: hsl(262, 83%, 58%);
+  --warm: hsl(240, 10%, 3.9%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  .bg-warm {
+    background-color: hsl(var(--warm));
+  }
+
+  .text-primary {
+    color: hsl(var(--primary));
+  }
+
+  .text-secondary {
+    color: hsl(var(--secondary));
+  }
+
+  .text-accent {
+    color: hsl(var(--accent));
+  }
+
+  .text-success {
+    color: hsl(var(--success));
+  }
+
+  .text-spiritual {
+    color: hsl(var(--spiritual));
+  }
+
+  .bg-primary {
+    background-color: hsl(var(--primary));
+  }
+
+  .bg-secondary {
+    background-color: hsl(var(--secondary));
+  }
+
+  .bg-accent {
+    background-color: hsl(var(--accent));
+  }
+
+  .bg-success {
+    background-color: hsl(var(--success));
+  }
+
+  .bg-spiritual {
+    background-color: hsl(var(--spiritual));
+  }
+}
+
+/* Custom utilities for the spiritual theme */
+@layer utilities {
+  .gradient-spiritual {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  }
+
+  .gradient-warm {
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--success)));
+  }
+
+  .shadow-spiritual {
+    box-shadow: 0 4px 14px 0 hsla(var(--primary), 0.2);
+  }
+
+  .font-serif {
+    font-family: 'Crimson Text', serif;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-primary bg-blue-50 p-4 my-6 italic font-serif;
+  }
+
+  .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    @apply font-serif;
+  }
+}
+
+/* Rich text editor specific styles */
+.rich-editor [contenteditable]:empty:before {
+  content: attr(data-placeholder);
+  color: hsl(var(--muted-foreground));
+  font-style: italic;
+}
+
+.rich-editor blockquote {
+  @apply border-l-4 border-primary bg-blue-50 p-4 my-6 italic font-serif;
+}
+
+.rich-editor h1, .rich-editor h2, .rich-editor h3, .rich-editor h4, .rich-editor h5, .rich-editor h6 {
+  @apply font-serif font-semibold text-gray-900;
+}
+
+.rich-editor h1 { @apply text-2xl mb-4; }
+.rich-editor h2 { @apply text-xl mb-3; }
+.rich-editor h3 { @apply text-lg mb-3; }
+.rich-editor h4 { @apply text-base mb-2; }
+
+.rich-editor p {
+  @apply mb-4 leading-relaxed;
+}
+
+.rich-editor ul, .rich-editor ol {
+  @apply mb-4 pl-6;
+}
+
+.rich-editor li {
+  @apply mb-1;
+}
+
+.rich-editor img {
+  @apply max-w-full h-auto rounded-lg shadow-lg my-6;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-friendly {
+    background: white !important;
+    color: black !important;
+  }
+
+  .print-friendly blockquote {
+    border-left: 4px solid #2563eb !important;
+    background: #f8fafc !important;
+  }
+}
+
+/* Loading animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
+}
