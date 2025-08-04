@@ -20,41 +20,50 @@ export function useAuth() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      console.log('Auth state changed:', firebaseUser ? 'User logged in' : 'User logged out');
       setFirebaseUser(firebaseUser);
       
       if (firebaseUser) {
-        // Get user data from Firestore
-        const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setUser({
-            id: firebaseUser.uid,
-            email: firebaseUser.email!,
-            displayName: firebaseUser.displayName || userData.displayName || "",
-            role: userData.role || "user",
-            createdAt: userData.createdAt?.toDate() || new Date(),
-            lastLogin: new Date(),
-          });
-          
-          // Update last login
-          await updateDoc(doc(db, "users", firebaseUser.uid), {
-            lastLogin: new Date(),
-          });
-        } else {
-          // Create new user document
-          const newUser = {
-            email: firebaseUser.email!,
-            displayName: firebaseUser.displayName || "",
-            role: "user" as const,
-            createdAt: new Date(),
-            lastLogin: new Date(),
-          };
-          
-          await setDoc(doc(db, "users", firebaseUser.uid), newUser);
-          setUser({
-            id: firebaseUser.uid,
-            ...newUser,
-          });
+        try {
+          // Get user data from Firestore
+          const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const user = {
+              id: firebaseUser.uid,
+              email: firebaseUser.email!,
+              displayName: firebaseUser.displayName || userData.displayName || "",
+              role: userData.role || "user",
+              createdAt: userData.createdAt?.toDate() || new Date(),
+              lastLogin: new Date(),
+            };
+            console.log('User loaded from Firestore:', user);
+            setUser(user);
+            
+            // Update last login
+            await updateDoc(doc(db, "users", firebaseUser.uid), {
+              lastLogin: new Date(),
+            });
+          } else {
+            // Create new user document
+            const newUser = {
+              email: firebaseUser.email!,
+              displayName: firebaseUser.displayName || "",
+              role: "user" as const,
+              createdAt: new Date(),
+              lastLogin: new Date(),
+            };
+            console.log('Creating new user document:', newUser);
+            
+            await setDoc(doc(db, "users", firebaseUser.uid), newUser);
+            setUser({
+              id: firebaseUser.uid,
+              ...newUser,
+            });
+          }
+        } catch (error) {
+          console.error('Error loading user data:', error);
+          setUser(null);
         }
       } else {
         setUser(null);
