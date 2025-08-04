@@ -22,8 +22,8 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const functions = getFunctions(app);
 
-// Connect to emulators in development
-if (import.meta.env.DEV) {
+// Connect to emulators in development only (disabled for production)
+if (import.meta.env.DEV && false) {
   try {
     connectAuthEmulator(auth, "http://localhost:9099");
     connectFirestoreEmulator(db, "localhost", 8080);
