@@ -47,8 +47,8 @@ export function RegisterForm({ onToggleMode }: RegisterFormProps) {
     try {
       await register(data.email, data.password, data.displayName);
       toast({
-        title: "Welcome to SpiritualPath!",
-        description: "Your account has been created successfully.",
+        title: "Check Your Email",
+        description: "We've sent you a verification email. Please check your inbox and click the verification link to complete your registration.",
       });
     } catch (error: any) {
       toast({

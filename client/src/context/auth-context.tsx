@@ -8,7 +8,7 @@ interface AuthContextType {
   firebaseUser: FirebaseUser | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, displayName: string) => Promise<void>;
+  register: (email: string, password: string, displayName: string) => Promise<{ needsEmailVerification: boolean } | void>;
   loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   promoteToAdmin: (userId: string) => Promise<void>;

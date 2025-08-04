@@ -7,9 +7,10 @@ import {
   signOut,
   updateProfile,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  sendEmailVerification
 } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, getDocs, collection } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { User } from "@shared/schema";
 
@@ -42,21 +43,35 @@ export function useAuth() {
             await updateDoc(doc(db, "users", firebaseUser.uid), {
               lastLogin: new Date(),
             });
+            
+            // Redirect after successful authentication
+            if (window.location.pathname === '/auth') {
+              window.location.href = user.role === 'admin' ? '/admin' : '/';
+            }
           } else {
-            // Create new user document
+            // Create new user document (for Google sign-in)
+            const usersSnapshot = await getDocs(collection(db, "users"));
+            const isFirstUser = usersSnapshot.empty;
+            
             const newUser = {
               email: firebaseUser.email!,
               displayName: firebaseUser.displayName || "",
-              role: "user" as const,
+              role: isFirstUser ? "admin" as const : "user" as const,
               createdAt: new Date(),
               lastLogin: new Date(),
             };
             
             await setDoc(doc(db, "users", firebaseUser.uid), newUser);
-            setUser({
+            const user = {
               id: firebaseUser.uid,
               ...newUser,
-            });
+            };
+            setUser(user);
+            
+            // Redirect after successful authentication
+            if (window.location.pathname === '/auth') {
+              window.location.href = user.role === 'admin' ? '/admin' : '/';
+            }
           }
         } catch (error) {
           console.error('Error loading user data:', error);
@@ -82,17 +97,26 @@ export function useAuth() {
 
   const register = async (email: string, password: string, displayName: string) => {
     try {
+      // Check if this is the first user (admin)
+      const usersSnapshot = await getDocs(collection(db, "users"));
+      const isFirstUser = usersSnapshot.empty;
+      
       const result = await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(result.user, { displayName });
+      
+      // Send email verification
+      await sendEmailVerification(result.user);
       
       // Create user document in Firestore
       await setDoc(doc(db, "users", result.user.uid), {
         email,
         displayName,
-        role: "user",
+        role: isFirstUser ? "admin" : "user", // First user becomes admin
         createdAt: new Date(),
         lastLogin: new Date(),
       });
+      
+      return { needsEmailVerification: true };
     } catch (error: any) {
       throw new Error(error.message);
     }
