@@ -2,6 +2,8 @@
 
 SpiritualPath is a comprehensive spiritual learning management system built as a full-stack React application. The platform enables the creation, organization, and delivery of Bible study content through a structured curriculum hierarchy. It features separate admin and student interfaces, with admins managing content through a hierarchical system of mains (top-level categories), classes (subcategories), and lessons, while students access published lessons, track their progress, and maintain personal bookmarks and notes.
 
+**Status**: Successfully deployed to Vercel at https://spiritualguide.vercel.app/ with full Firebase authentication working.
+
 # User Preferences
 
 Preferred communication style: Simple, everyday language.

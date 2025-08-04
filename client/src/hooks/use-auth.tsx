@@ -20,7 +20,6 @@ export function useAuth() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      console.log('Auth state changed:', firebaseUser ? 'User logged in' : 'User logged out');
       setFirebaseUser(firebaseUser);
       
       if (firebaseUser) {
@@ -37,7 +36,6 @@ export function useAuth() {
               createdAt: userData.createdAt?.toDate() || new Date(),
               lastLogin: new Date(),
             };
-            console.log('User loaded from Firestore:', user);
             setUser(user);
             
             // Update last login
@@ -53,7 +51,6 @@ export function useAuth() {
               createdAt: new Date(),
               lastLogin: new Date(),
             };
-            console.log('Creating new user document:', newUser);
             
             await setDoc(doc(db, "users", firebaseUser.uid), newUser);
             setUser({

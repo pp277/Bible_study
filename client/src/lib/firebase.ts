@@ -13,27 +13,7 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Debug log for Vercel deployment
-if (typeof window !== 'undefined') {
-  console.log('Firebase Config Status:', {
-    hasApiKey: !!firebaseConfig.apiKey,
-    hasAuthDomain: !!firebaseConfig.authDomain,
-    hasProjectId: !!firebaseConfig.projectId,
-    hasStorageBucket: !!firebaseConfig.storageBucket,
-    hasMessagingSenderId: !!firebaseConfig.messagingSenderId,
-    hasAppId: !!firebaseConfig.appId,
-    actualValues: {
-      authDomain: firebaseConfig.authDomain,
-      projectId: firebaseConfig.projectId,
-    }
-  });
-  
-  // Check if any config values are missing
-  const missingConfigs = Object.entries(firebaseConfig).filter(([key, value]) => !value);
-  if (missingConfigs.length > 0) {
-    console.error('Missing Firebase config values:', missingConfigs.map(([key]) => key));
-  }
-}
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

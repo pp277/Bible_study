@@ -16,8 +16,6 @@ import AdminContent from "@/pages/admin/content";
 import AdminLessons from "@/pages/admin/lessons";
 import AdminUsers from "@/pages/admin/users";
 import AdminLessonEdit from "@/pages/admin/lesson-edit";
-import { FirebaseDebug } from "@/components/auth/firebase-debug";
-
 function Router() {
   return (
     <Switch>
@@ -48,8 +46,6 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
-          {/* Debug component - remove after fixing */}
-          <FirebaseDebug />
         </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>

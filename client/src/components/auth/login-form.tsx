@@ -38,20 +38,15 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   const onSubmit = async (data: LoginForm) => {
     setIsLoading(true);
     try {
-      console.log("🔥 Attempting login with:", data.email);
       await login(data.email, data.password);
-      console.log("🔥 Login successful!");
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
-      // Force redirect after successful login
-      window.location.href = "/";
     } catch (error: any) {
-      console.error("🔥 Login error:", error);
       toast({
         title: "Login failed",
-        description: error.message || "Authentication failed. Check Firebase settings.",
+        description: error.message,
         variant: "destructive",
       });
     } finally {
@@ -62,20 +57,15 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   const handleGoogleLogin = async () => {
     setIsLoading(true);
     try {
-      console.log("🔥 Attempting Google login");
       await loginWithGoogle();
-      console.log("🔥 Google login successful!");
       toast({
         title: "Welcome!",
         description: "You have successfully logged in with Google.",
       });
-      // Force redirect after successful login
-      window.location.href = "/";
     } catch (error: any) {
-      console.error("🔥 Google login error:", error);
       toast({
         title: "Login failed",
-        description: error.message || "Google authentication failed. Check Firebase settings.",
+        description: error.message,
         variant: "destructive",
       });
     } finally {
